@@ -10,7 +10,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"数据存储 ";
+    self.title = @"数据存储";
     
     KeyValueStore *store = [[KeyValueStore alloc]initWithPath:AccountPath];
     
