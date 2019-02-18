@@ -1,4 +1,14 @@
 
+//
+//  KeyValueStore.m
+//  KeyValueStore <https://github.com/QiaokeZ/iOS_KeyValueStore>
+//
+//  Created by admin on 2019/1/18.
+//  Copyright © 2019 zhouqiao. All rights reserved.
+//
+//  This source code is licensed under the MIT-style license found in the
+//  LICENSE file in the root directory of this source tree.
+//
 
 #import "KeyValueStore.h"
 #import <sqlite3.h>
@@ -15,14 +25,13 @@
     if(self = [super init]){
         _path = path.copy;
         _semaphore = dispatch_semaphore_create(1);
-        if(sqlite3_open(_path.UTF8String, &_db) == SQLITE_OK){
+        int result = sqlite3_open(_path.UTF8String, &_db);
+        if(result == SQLITE_OK){
             static const char *sql = "create table if not exists KeyValueStore (key text primary key, value blob);";
             char *error = NULL;
             if(sqlite3_exec(_db, sql, NULL, NULL, &error) != SQLITE_OK){
-                NSLog(@"KeyValueStore 失败");
+                NSLog(@"KeyValueStore initialization error");
             }
-        }else{
-            NSLog(@"KeyValueStore 失败");
         }
         sqlite3_close(_db);
     }
@@ -35,10 +44,11 @@
 }
 
 - (BOOL)openDB{
+    int result = sqlite3_open(_path.UTF8String, &_db);
     if(sqlite3_open(_path.UTF8String, &_db) == SQLITE_OK){
         return YES;
     }
-    NSLog(@"失败");
+    NSLog(@"KeyValueStore %s line:%d sqlite open failed (%d).", __FUNCTION__, __LINE__, result);
     return NO;
 }
 
