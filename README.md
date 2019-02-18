@@ -1,5 +1,4 @@
 # KeyValueStore
-## 数据缓存
 
 ``` objectivec
 #define AccountPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"account.storage"]
